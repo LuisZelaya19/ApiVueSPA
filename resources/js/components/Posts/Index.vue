@@ -1,7 +1,24 @@
 <template>
   <div>
     <div class="container">
-      <div class="row">
+      <div class="row mt-3">
+        <div class="col-md-4">
+          <select
+            name="category_id"
+            id="category_id"
+            v-model="category_id"
+            class="form-control"
+          >
+            <option value="">Select an option</option>
+            <option
+              v-for="category in categories"
+              :value="category.id"
+            >{{category.name}}
+            </option>
+          </select>
+        </div>
+      </div>
+      <div class="row mt-3">
         <div class="col-md-12">
           <table class="table table-bordered">
             <thead>
@@ -35,16 +52,29 @@ export default {
   data() {
     return {
       posts: {},
+      categories: [],
+      category_id: "",
     };
   },
   mounted() {
     this.getResults();
+
+    axios.get("/api/categories").then((response) => {
+      this.categories = response.data.data;
+    });
+  },
+  watch: {
+    category_id(value) {
+      this.getResults();
+    },
   },
   methods: {
     getResults(page = 1) {
-      axios.get("/api/posts?page=" + page).then((response) => {
-        this.posts = response.data;
-      });
+      axios
+        .get("/api/posts?page=" + page + "&category_id=" + this.category_id)
+        .then((response) => {
+          this.posts = response.data;
+        });
     },
   },
 };
