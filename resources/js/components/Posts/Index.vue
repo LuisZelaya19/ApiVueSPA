@@ -23,9 +23,30 @@
           <table class="table table-bordered">
             <thead>
               <tr>
-                <th scope="col">Title</th>
-                <th scope="col">Post text</th>
-                <th scope="col">Created at</th>
+                <th scope="col">
+                  <a
+                    href="#"
+                    @click.prevent="changeSort('title')"
+                  >Title</a>
+                  <span>&uarr;</span>
+                  <span>&darr;</span>
+                </th>
+                <th scope="col">
+                  <a
+                    href="#"
+                    @click.prevent="changeSort('post_text')"
+                  >Post text</a>
+                  <span>&uarr;</span>
+                  <span>&darr;</span>
+                </th>
+                <th scope="col">
+                  <a
+                    href="#"
+                    @click.prevent="changeSort('created_at')"
+                  >Created at</a>
+                  <span>&uarr;</span>
+                  <span>&darr;</span>
+                </th>
                 <th scope="col">Action</th>
               </tr>
             </thead>
@@ -54,6 +75,8 @@ export default {
       posts: {},
       categories: [],
       category_id: "",
+      sort_field: "created_at",
+      sort_direction: "desc",
     };
   },
   mounted() {
@@ -71,10 +94,29 @@ export default {
   methods: {
     getResults(page = 1) {
       axios
-        .get("/api/posts?page=" + page + "&category_id=" + this.category_id)
+        .get(
+          "/api/posts?page=" +
+            page +
+            "&category_id=" +
+            this.category_id +
+            "&sort_field=" +
+            this.sort_field +
+            "&sort_direction=" +
+            this.sort_direction
+        )
         .then((response) => {
           this.posts = response.data;
         });
+    },
+
+    changeSort(field) {
+      if (this.sort_field == field) {
+        this.sort_direction = this.sort_direction === "asc" ? "desc" : "asc";
+      } else {
+        this.sort_field = field;
+        this.sort_direction = "asc";
+      }
+      this.getResults();
     },
   },
 };

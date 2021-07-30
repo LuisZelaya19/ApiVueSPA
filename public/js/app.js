@@ -1894,12 +1894,35 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   data: function data() {
     return {
       posts: {},
       categories: [],
-      category_id: ""
+      category_id: "",
+      sort_field: "created_at",
+      sort_direction: "desc"
     };
   },
   mounted: function mounted() {
@@ -1920,9 +1943,19 @@ __webpack_require__.r(__webpack_exports__);
       var _this2 = this;
 
       var page = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 1;
-      axios.get("/api/posts?page=" + page + "&category_id=" + this.category_id).then(function (response) {
+      axios.get("/api/posts?page=" + page + "&category_id=" + this.category_id + "&sort_field=" + this.sort_field + "&sort_direction=" + this.sort_direction).then(function (response) {
         _this2.posts = response.data;
       });
+    },
+    changeSort: function changeSort(field) {
+      if (this.sort_field == field) {
+        this.sort_direction = this.sort_direction === "asc" ? "desc" : "asc";
+      } else {
+        this.sort_field = field;
+        this.sort_direction = "asc";
+      }
+
+      this.getResults();
     }
   }
 });
@@ -20134,7 +20167,71 @@ var render = function() {
           { staticClass: "col-md-12" },
           [
             _c("table", { staticClass: "table table-bordered" }, [
-              _vm._m(0),
+              _c("thead", [
+                _c("tr", [
+                  _c("th", { attrs: { scope: "col" } }, [
+                    _c(
+                      "a",
+                      {
+                        attrs: { href: "#" },
+                        on: {
+                          click: function($event) {
+                            $event.preventDefault()
+                            return _vm.changeSort("title")
+                          }
+                        }
+                      },
+                      [_vm._v("Title")]
+                    ),
+                    _vm._v(" "),
+                    _c("span", [_vm._v("↑")]),
+                    _vm._v(" "),
+                    _c("span", [_vm._v("↓")])
+                  ]),
+                  _vm._v(" "),
+                  _c("th", { attrs: { scope: "col" } }, [
+                    _c(
+                      "a",
+                      {
+                        attrs: { href: "#" },
+                        on: {
+                          click: function($event) {
+                            $event.preventDefault()
+                            return _vm.changeSort("post_text")
+                          }
+                        }
+                      },
+                      [_vm._v("Post text")]
+                    ),
+                    _vm._v(" "),
+                    _c("span", [_vm._v("↑")]),
+                    _vm._v(" "),
+                    _c("span", [_vm._v("↓")])
+                  ]),
+                  _vm._v(" "),
+                  _c("th", { attrs: { scope: "col" } }, [
+                    _c(
+                      "a",
+                      {
+                        attrs: { href: "#" },
+                        on: {
+                          click: function($event) {
+                            $event.preventDefault()
+                            return _vm.changeSort("created_at")
+                          }
+                        }
+                      },
+                      [_vm._v("Created at")]
+                    ),
+                    _vm._v(" "),
+                    _c("span", [_vm._v("↑")]),
+                    _vm._v(" "),
+                    _c("span", [_vm._v("↓")])
+                  ]),
+                  _vm._v(" "),
+                  _c("th", { attrs: { scope: "col" } }, [_vm._v("Action")])
+                ])
+              ]),
               _vm._v(" "),
               _c(
                 "tbody",
@@ -20164,24 +20261,7 @@ var render = function() {
     ])
   ])
 }
-var staticRenderFns = [
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("thead", [
-      _c("tr", [
-        _c("th", { attrs: { scope: "col" } }, [_vm._v("Title")]),
-        _vm._v(" "),
-        _c("th", { attrs: { scope: "col" } }, [_vm._v("Post text")]),
-        _vm._v(" "),
-        _c("th", { attrs: { scope: "col" } }, [_vm._v("Created at")]),
-        _vm._v(" "),
-        _c("th", { attrs: { scope: "col" } }, [_vm._v("Action")])
-      ])
-    ])
-  }
-]
+var staticRenderFns = []
 render._withStripped = true
 
 
