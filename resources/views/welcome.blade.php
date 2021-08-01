@@ -14,7 +14,7 @@
 
 <body class="antialiased">
 	<div id="app">
-		<posts-index></posts-index>
+		<app></app>
 	</div>
 
 	<script src="{{mix('js/app.js')}}"></script>
