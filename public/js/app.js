@@ -1854,7 +1854,76 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({});
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
+  data: function data() {
+    return {
+      categories: [],
+      fields: {
+        title: "",
+        post_text: "",
+        category_id: ""
+      }
+    };
+  },
+  mounted: function mounted() {
+    var _this = this;
+
+    axios.get("/api/categories").then(function (response) {
+      _this.categories = response.data.data;
+    });
+  },
+  methods: {
+    submit: function submit() {
+      var _this2 = this;
+
+      axios.post("/api/posts", this.fields).then(function (response) {
+        _this2.$router.push("/");
+      });
+    }
+  }
+});
 
 /***/ }),
 
@@ -1997,35 +2066,21 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.esm.js");
 /* harmony import */ var vue_router__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! vue-router */ "./node_modules/vue-router/dist/vue-router.esm.js");
 /* harmony import */ var _components_App_vue__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./components/App.vue */ "./resources/js/components/App.vue");
-/* harmony import */ var _components_Posts_Index_vue__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./components/Posts/Index.vue */ "./resources/js/components/Posts/Index.vue");
-/* harmony import */ var _components_Posts_Create_vue__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./components/Posts/Create.vue */ "./resources/js/components/Posts/Create.vue");
+/* harmony import */ var _routes__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./routes */ "./resources/js/routes/index.js");
 __webpack_require__(/*! ./bootstrap */ "./resources/js/bootstrap.js");
 
 
 
 vue__WEBPACK_IMPORTED_MODULE_0__.default.use(vue_router__WEBPACK_IMPORTED_MODULE_1__.default);
 
-
-
 vue__WEBPACK_IMPORTED_MODULE_0__.default.component('pagination', __webpack_require__(/*! laravel-vue-pagination */ "./node_modules/laravel-vue-pagination/dist/laravel-vue-pagination.common.js"));
-var router = new vue_router__WEBPACK_IMPORTED_MODULE_1__.default({
-  mode: 'history',
-  routes: [{
-    path: '/',
-    component: _components_Posts_Index_vue__WEBPACK_IMPORTED_MODULE_3__.default,
-    name: 'posts.index'
-  }, {
-    path: '/posts/create',
-    component: _components_Posts_Create_vue__WEBPACK_IMPORTED_MODULE_4__.default,
-    name: 'posts.create'
-  }]
-});
+
 var app = new vue__WEBPACK_IMPORTED_MODULE_0__.default({
   el: '#app',
   components: {
     App: _components_App_vue__WEBPACK_IMPORTED_MODULE_2__.default
   },
-  router: router
+  router: new vue_router__WEBPACK_IMPORTED_MODULE_1__.default(_routes__WEBPACK_IMPORTED_MODULE_3__.default)
 });
 
 /***/ }),
@@ -2058,6 +2113,36 @@ window.axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
 //     cluster: process.env.MIX_PUSHER_APP_CLUSTER,
 //     forceTLS: true
 // });
+
+/***/ }),
+
+/***/ "./resources/js/routes/index.js":
+/*!**************************************!*\
+  !*** ./resources/js/routes/index.js ***!
+  \**************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _components_Posts_Index_vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../components/Posts/Index.vue */ "./resources/js/components/Posts/Index.vue");
+/* harmony import */ var _components_Posts_Create_vue__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../components/Posts/Create.vue */ "./resources/js/components/Posts/Create.vue");
+
+
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
+  mode: 'history',
+  routes: [{
+    path: '/',
+    component: _components_Posts_Index_vue__WEBPACK_IMPORTED_MODULE_0__.default,
+    name: 'posts.index'
+  }, {
+    path: '/posts/create',
+    component: _components_Posts_Create_vue__WEBPACK_IMPORTED_MODULE_1__.default,
+    name: 'posts.create'
+  }]
+});
 
 /***/ }),
 
@@ -20395,20 +20480,141 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _vm._m(0)
-}
-var staticRenderFns = [
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", [
-      _c("div", { staticClass: "container" }, [
-        _c("div", { staticClass: "row mt-3" }, [_vm._v("\n      prueba\n    ")])
-      ])
+  return _c("div", [
+    _c("div", { staticClass: "container" }, [
+      _c(
+        "form",
+        {
+          on: {
+            submit: function($event) {
+              $event.preventDefault()
+              return _vm.submit.apply(null, arguments)
+            }
+          }
+        },
+        [
+          _c("div", { staticClass: "form-group" }, [
+            _c("label", { attrs: { for: "title" } }, [_vm._v("Title")]),
+            _vm._v(" "),
+            _c("input", {
+              directives: [
+                {
+                  name: "model",
+                  rawName: "v-model",
+                  value: _vm.fields.title,
+                  expression: "fields.title"
+                }
+              ],
+              staticClass: "form-control",
+              attrs: {
+                type: "text",
+                id: "title",
+                name: "title",
+                placeholder: "Enter title"
+              },
+              domProps: { value: _vm.fields.title },
+              on: {
+                input: function($event) {
+                  if ($event.target.composing) {
+                    return
+                  }
+                  _vm.$set(_vm.fields, "title", $event.target.value)
+                }
+              }
+            })
+          ]),
+          _vm._v(" "),
+          _c("div", { staticClass: "form-group" }, [
+            _c("label", { attrs: { for: "post_text" } }, [_vm._v("Post text")]),
+            _vm._v(" "),
+            _c("input", {
+              directives: [
+                {
+                  name: "model",
+                  rawName: "v-model",
+                  value: _vm.fields.post_text,
+                  expression: "fields.post_text"
+                }
+              ],
+              staticClass: "form-control",
+              attrs: {
+                type: "text",
+                id: "post_text",
+                name: "post_text",
+                placeholder: "Enter title"
+              },
+              domProps: { value: _vm.fields.post_text },
+              on: {
+                input: function($event) {
+                  if ($event.target.composing) {
+                    return
+                  }
+                  _vm.$set(_vm.fields, "post_text", $event.target.value)
+                }
+              }
+            })
+          ]),
+          _vm._v(" "),
+          _c("div", { staticClass: "form-group" }, [
+            _c("label", { attrs: { for: "category_id" } }, [
+              _vm._v("Category")
+            ]),
+            _vm._v(" "),
+            _c(
+              "select",
+              {
+                directives: [
+                  {
+                    name: "model",
+                    rawName: "v-model",
+                    value: _vm.fields.category_id,
+                    expression: "fields.category_id"
+                  }
+                ],
+                staticClass: "form-control",
+                attrs: { name: "category_id", id: "category_id" },
+                on: {
+                  change: function($event) {
+                    var $$selectedVal = Array.prototype.filter
+                      .call($event.target.options, function(o) {
+                        return o.selected
+                      })
+                      .map(function(o) {
+                        var val = "_value" in o ? o._value : o.value
+                        return val
+                      })
+                    _vm.$set(
+                      _vm.fields,
+                      "category_id",
+                      $event.target.multiple ? $$selectedVal : $$selectedVal[0]
+                    )
+                  }
+                }
+              },
+              [
+                _c("option", { attrs: { value: "" } }, [_vm._v("Seleccione")]),
+                _vm._v(" "),
+                _vm._l(_vm.categories, function(category) {
+                  return _c("option", { domProps: { value: category.id } }, [
+                    _vm._v(_vm._s(category.name) + "\n          ")
+                  ])
+                })
+              ],
+              2
+            )
+          ]),
+          _vm._v(" "),
+          _c(
+            "button",
+            { staticClass: "btn btn-primary", attrs: { type: "submit" } },
+            [_vm._v("Submit\n      ")]
+          )
+        ]
+      )
     ])
-  }
-]
+  ])
+}
+var staticRenderFns = []
 render._withStripped = true
 
 
