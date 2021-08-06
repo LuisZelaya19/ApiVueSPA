@@ -90,6 +90,7 @@ export default {
       axios
         .post("/api/posts", this.fields)
         .then((response) => {
+          this.$swal("Post Added Successfully");
           this.$router.push("/");
         })
         .catch((error) => {
