@@ -46,8 +46,8 @@
           >
             <option value="">Seleccione</option>
             <option
-              :value="category.id"
               v-for="category in categories"
+              :value="category.id"
             >{{category.name}}
             </option>
           </select>
@@ -84,11 +84,15 @@ export default {
     axios.get("/api/categories").then((response) => {
       this.categories = response.data.data;
     });
+
+    axios.get("/api/posts/" + this.$route.params.id).then((response) => {
+      this.fields = response.data.data;
+    });
   },
   methods: {
     submit() {
       axios
-        .post("/api/posts", this.fields)
+        .put("/api/posts/" + this.$route.params.id, this.fields)
         .then((response) => {
           this.$router.push("/");
         })

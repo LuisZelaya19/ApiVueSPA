@@ -35,7 +35,8 @@
                   <a
                     href="#"
                     @click.prevent="changeSort('post_text')"
-                  >Post text</a>
+                  >Post text
+                  </a>
                   <span>&uarr;</span>
                   <span>&darr;</span>
                 </th>
@@ -43,7 +44,8 @@
                   <a
                     href="#"
                     @click.prevent="changeSort('created_at')"
-                  >Created at</a>
+                  >Created at
+                  </a>
                   <span>&uarr;</span>
                   <span>&darr;</span>
                 </th>
@@ -55,7 +57,12 @@
                 <td>{{post.title}}</td>
                 <td>{{post.post_text}}</td>
                 <td>{{post.created_at}}</td>
-                <td></td>
+                <td>
+                  <router-link
+                    :to="{name: 'posts.edit', params: {id: post.id}}"
+                    class="btn btn-primary"
+                  >Edit</router-link>
+                </td>
               </tr>
             </tbody>
           </table>
