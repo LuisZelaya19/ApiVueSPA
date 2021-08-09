@@ -1943,6 +1943,11 @@ __webpack_require__.r(__webpack_exports__);
         _this2.$router.push("/");
       })["catch"](function (error) {
         if (error.response.status == 422) {
+          _this2.$swal({
+            icon: "error",
+            title: "An error occured"
+          });
+
           _this2.errors = error.response.data.errors;
         }
       });
@@ -2059,9 +2064,16 @@ __webpack_require__.r(__webpack_exports__);
       var _this2 = this;
 
       axios.put("/api/posts/" + this.$route.params.id, this.fields).then(function (response) {
+        _this2.$swal("Post Edited Successfully");
+
         _this2.$router.push("/");
       })["catch"](function (error) {
         if (error.response.status == 422) {
+          _this2.$swal({
+            icon: "error",
+            title: "An error occured"
+          });
+
           _this2.errors = error.response.data.errors;
         }
       });
@@ -2082,6 +2094,10 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
+//
+//
+//
+//
 //
 //
 //
@@ -2189,6 +2205,33 @@ __webpack_require__.r(__webpack_exports__);
       var page = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 1;
       axios.get("/api/posts?page=" + page + "&category_id=" + this.category_id + "&sort_field=" + this.sort_field + "&sort_direction=" + this.sort_direction).then(function (response) {
         _this2.posts = response.data;
+      });
+    },
+    delete_post: function delete_post(post_id) {
+      var _this3 = this;
+
+      this.$swal({
+        title: "Are you sure?",
+        text: "You will not be able to recover this imaginary file!",
+        type: "error",
+        showCancelButton: true,
+        dangerMode: true,
+        cancelButtonClass: "#DD6B55",
+        confirmButtonColor: "#dc3545",
+        confirmButtonText: "Delete!"
+      }).then(function (result) {
+        if (result.value) {
+          axios["delete"]("/api/posts/" + post_id).then(function (response) {
+            _this3.$swal("Post deleted succesfully");
+
+            _this3.getResults();
+          })["catch"](function (error) {
+            _this3.$swal({
+              icon: "error",
+              title: "Error happened"
+            });
+          });
+        }
       });
     },
     changeSort: function changeSort(field) {
@@ -21631,7 +21674,7 @@ var render = function() {
                         _c(
                           "router-link",
                           {
-                            staticClass: "btn btn-primary",
+                            staticClass: "btn btn-primary btn-sm",
                             attrs: {
                               to: {
                                 name: "posts.edit",
@@ -21640,6 +21683,19 @@ var render = function() {
                             }
                           },
                           [_vm._v("Edit")]
+                        ),
+                        _vm._v(" "),
+                        _c(
+                          "button",
+                          {
+                            staticClass: "btn btn-danger btn-sm",
+                            on: {
+                              click: function($event) {
+                                return _vm.delete_post(post.id)
+                              }
+                            }
+                          },
+                          [_vm._v("Delete")]
                         )
                       ],
                       1

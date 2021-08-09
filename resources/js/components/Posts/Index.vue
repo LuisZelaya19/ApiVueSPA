@@ -60,8 +60,12 @@
                 <td>
                   <router-link
                     :to="{name: 'posts.edit', params: {id: post.id}}"
-                    class="btn btn-primary"
+                    class="btn btn-primary btn-sm"
                   >Edit</router-link>
+                  <button
+                    @click="delete_post(post.id)"
+                    class="btn btn-danger btn-sm"
+                  >Delete</button>
                 </td>
               </tr>
             </tbody>
@@ -114,6 +118,31 @@ export default {
         .then((response) => {
           this.posts = response.data;
         });
+    },
+
+    delete_post(post_id) {
+      this.$swal({
+        title: "Are you sure?",
+        text: "You will not be able to recover this imaginary file!",
+        type: "error",
+        showCancelButton: true,
+        dangerMode: true,
+        cancelButtonClass: "#DD6B55",
+        confirmButtonColor: "#dc3545",
+        confirmButtonText: "Delete!",
+      }).then((result) => {
+        if (result.value) {
+          axios
+            .delete("/api/posts/" + post_id)
+            .then((response) => {
+              this.$swal("Post deleted succesfully");
+              this.getResults();
+            })
+            .catch((error) => {
+              this.$swal({ icon: "error", title: "Error happened" });
+            });
+        }
+      });
     },
 
     changeSort(field) {

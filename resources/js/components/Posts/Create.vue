@@ -95,6 +95,7 @@ export default {
         })
         .catch((error) => {
           if (error.response.status == 422) {
+            this.$swal({ icon: "error", title: "An error occured" });
             this.errors = error.response.data.errors;
           }
         });

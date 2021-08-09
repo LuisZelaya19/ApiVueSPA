@@ -94,10 +94,12 @@ export default {
       axios
         .put("/api/posts/" + this.$route.params.id, this.fields)
         .then((response) => {
+          this.$swal("Post Edited Successfully");
           this.$router.push("/");
         })
         .catch((error) => {
           if (error.response.status == 422) {
+            this.$swal({ icon: "error", title: "An error occured" });
             this.errors = error.response.data.errors;
           }
         });
